@@ -44,10 +44,10 @@ int initialize_players(player players[]){
     int i = 0;
     while (i<6) {
       printf("Please enter your name:\n");
-      gets(players[i].name);
+      fgets(players[i].name, 20, stdin);
 
       //Checks whether a carriage return symbol was provided as input
-      if(players[i].name == '\n')
+      if(players[i].name[0] == '\n')
           break;
       i++;
     }
