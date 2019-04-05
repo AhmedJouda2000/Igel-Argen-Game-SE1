@@ -41,20 +41,32 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
  */
 int initialize_players(player players[]){
 
+    char* colours[6] = {"RED", "BLU", "GREEN", "YELLOW", "PINK", "ORANGE"};
+
+    int choice;
     int i = 0;
-    while (i<6) {
+    while (i<6)
+    {
       printf("Please enter your name:\n");
       fgets(players[i].name, 20, stdin);
-
       //Checks whether a carriage return symbol was provided as input
       if(players[i].name[0] == '\n')
           break;
+
+      printf("Please Pick a colour:\n");
+      for (size_t j = 0; j < 6; j++)
+      {
+        printf("%d) %s\n", j+1, colours[j]);
+      }
+      scanf("%d", &choice);
+      getchar();
+      choice--;
+      players[i].col = choice;
       i++;
     }
 
-    printf("ta da %s\n", players[1].name);
+    printf("ta da %s ..... %s\n", players[0].name, players[0].col);
 
 
-    //YOU WILL NEED TO IMPLEMENT THIS FUNCTION IN THIS LAB
         return 0;
     }
