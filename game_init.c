@@ -65,7 +65,10 @@ int initialize_players(player players[]){
       i++;
     }
 
-    printf("ta da %s ..... %s\n", players[0].name, players[0].col);
+    for (size_t z = 0; z < i; z++) {
+      printf("NAME: %s\n COLOR: %d\n\n", players[z].name, players[z].col);
+    }
+
 
 
         return 0;
