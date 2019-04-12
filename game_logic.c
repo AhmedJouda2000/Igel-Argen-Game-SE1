@@ -90,24 +90,28 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
       for (size_t j = 0; j < numPlayers; j++)
       {
 
-        printf("Player %d (%s) please select a square\n", j, players[j].name);
+        printf("Player %d) %s please select a square\n", j, players[j].name);
         scanf("%d", &selectedSquare);
 
         while (minNumOfTokens != board[selectedSquare][0].numTokens) {
           printf("TRY AGAIN: MUST BE SQAURE WITH LEAST TOKENS\n");
-          printf("Player %d (%s) please select a square\n", j, players[j].name);
+          printf("Player %d) %s please select a square\n", j, players[j].name);
           scanf("%d", &selectedSquare);
         }
 
+        //Checks if user is blocking their own token in stack, only gives 1 chance
+        if (board[selectedSquare][0].numTokens > 0 && board[selectedSquare][0].stack->col == players[j].col) {
+            printf("\nError: can't place on your own colour\n");
+                scanf("%d", &selectedSquare);
+            }
+        }
 
-        if (minNumOfTokens == board[selectedSquare][0].numTokens)
+        if (minNumOfTokens == board[selectedSquare][0].numTokens )
         {
 
             board[selectedSquare][0].stack = (token *) malloc(sizeof(token));
             board[selectedSquare][0].stack->col = players[j].col;
             board[selectedSquare][0].numTokens++;
-
-
         }
         if (((numPlayers * i) + j + 1)%NUM_ROWS == 0)
         {
