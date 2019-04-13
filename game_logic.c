@@ -145,7 +145,7 @@
         srand(time(NULL));
         int dice = (rand()%5)+1;
 
-        printf("\n\n%s rolled: %d\tYou can move a token in row %d or the row either side\n",
+        printf("\n\n%s rolled: %d\tAt the end of your turn a token in row %d will be moved\n",
          players[i].name, dice, dice);
 
         int chooseToken;
