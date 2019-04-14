@@ -76,13 +76,16 @@
    *        players - the array of the players
    *        numPlayers - the number of players
    */
+
+
   void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers)
   {
       // TO BE IMPLEMENTED
       int minNumOfTokens = 0;
       int selectedSquare = 0;
 
-      for (size_t z = 0; z <= 6; z++) {
+
+      for (size_t z = 0; z < 6; z++) {
         board[z][0].numTokens = 0;
       }
 
@@ -93,6 +96,7 @@
 
           printf("Player %d) %s please select a square\n", j, players[j].name);
           scanf("%d", &selectedSquare);
+          selectedSquare--;
 
           while (minNumOfTokens != board[selectedSquare][0].numTokens) {
             printf("TRY AGAIN: MUST BE SQAURE WITH LEAST TOKENS\n");
@@ -121,7 +125,7 @@
       }
     }
 
-      //printf("\n\n%d\n\n%d", board[0][0].numTokens, board[1][0].numTokens);
+      printf("\n\n%d\n\n%d", board[0][0].numTokens, board[1][0].numTokens);
   }
 
 
@@ -140,16 +144,66 @@
    }
 
   void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
+    int j;
+    char direction;
+
     while (check_win(board, players, numPlayers)) {
       for (size_t i=0; i<numPlayers; i++) {
-        srand(time(NULL));
+        srand(time(NULL));    //roll a dice here
         int dice = (rand()%5)+1;
 
         printf("\n\n%s rolled: %d\tAt the end of your turn a token in row %d will be moved\n",
          players[i].name, dice, dice);
 
-        int chooseToken;
-        scanf("%d", &chooseToken);
+         printf("\nDo you wish to move a token? 1 for yes\n");
+         int choice;
+         scanf("%d", &choice);
+
+         if (choice == 1) {
+          printf("Choose a square with your token in it\n");
+          int chooseToken;
+          scanf("%d", &chooseToken);
+
+          j=0;
+          while (board[chooseToken][j].stack != NULL) {
+            j++;    //Loop checks what colum the token to be moved is in
+          }
+
+            switch (chooseToken) {
+              case(1):   //if top row picked token MUST move down
+                board[1][j].stack->col = board[0][j].stack->col;
+                break;
+
+              case (6):   //if bottom row picked token MUST move up
+                board[5][j].stack->col = board[6][j].stack->col;
+                break;
+
+              default:  //else let user pick which direction to move
+                printf("What direction to move? (u) or (d)?\n");
+                scanf("%c\n", &direction);
+
+                if (direction == 'u') {
+                  board[chooseToken-2][j].stack->col = board[chooseToken-1][j].stack->col;
+                }
+                else if (direction == 'd') {
+                  board[chooseToken+2][j].stack->col = board[chooseToken+1][j].stack->col;
+                }
+                else {
+                  printf("Error, not a valid direction\n");
+                }
+            }
+
+           j=0;
+          while (board[dice][j].stack != NULL) {
+            j++;    //Loop checks what colum the token to be moved is in
+          }
+          //Create memory for a token and move one 1 column right
+          board[dice][j].stack = (token *) malloc(sizeof(token));
+          board[dice][j].stack->col = board[dice][j-1].stack->col;
+          board[dice][j].numTokens++;
+          board[dice][j-1].numTokens--;
+          printf("\nToken was moved to [%d][%d]", dice, j);
       }
     }
   }
+}
