@@ -102,6 +102,7 @@
             printf("TRY AGAIN: MUST BE SQAURE WITH LEAST TOKENS\n");
             printf("Player %d) %s please select a square\n", j, players[j].name);
             scanf("%d", &selectedSquare);
+            selectedSquare--;
           }
 
           //Checks if user is blocking their own token in stack, only gives 1 chance
@@ -164,10 +165,10 @@
           int chooseToken;
           scanf("%d", &chooseToken);
 
-          j=0;
-          while (board[chooseToken][j].stack != NULL) {
-            j++;    //Loop checks what colum the token to be moved is in
-          }
+            j=0;
+              while (board[chooseToken][j].stack != NULL) {
+                j++;    //Loop checks what colum the token to be moved is in
+               }
 
             switch (chooseToken) {
               case(1):   //if top row picked token MUST move down
@@ -180,7 +181,7 @@
 
               default:  //else let user pick which direction to move
                 printf("What direction to move? (u) or (d)?\n");
-                scanf("%c\n", &direction);
+                scanf("%c", &direction);
 
                 if (direction == 'u') {
                   board[chooseToken-2][j].stack->col = board[chooseToken-1][j].stack->col;
@@ -192,8 +193,9 @@
                   printf("Error, not a valid direction\n");
                 }
             }
+          }
 
-           j=0;
+          j=0;
           while (board[dice][j].stack != NULL) {
             j++;    //Loop checks what colum the token to be moved is in
           }
@@ -204,6 +206,5 @@
           board[dice][j-1].numTokens--;
           printf("\nToken was moved to [%d][%d]", dice, j);
       }
-    }
-  }
-}
+     }
+   }
