@@ -222,14 +222,14 @@
           */
 
           j=0;
-          while (board[dice][j+1].stack == NULL) {
+          while (board[dice][j].stack == NULL) {
             j++;    //Loop checks what colum the token to be moved is in
           }
           //Create memory for a token and move one 1 column right
           board[dice][j+1].stack = (token *) malloc(sizeof(token));
           board[dice][j+1].stack = push(board[dice][j].stack->col, top);
           board[dice][j].stack = pop(top);
-          printf("\nToken was moved to [%d][%d]", dice, j);
+          printf("\nToken was moved to [%d][%d+1]", dice, j);
           print_board(board);
       }
      }
