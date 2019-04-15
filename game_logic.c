@@ -169,22 +169,21 @@
    }
 
   void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
-    int j;
+    int j, choice;
     char direction;
 
     while (check_win(board, players, numPlayers)) {
       for (size_t i=0; i<numPlayers; i++) {
         srand(time(NULL));    //roll a dice here
-        int dice = (rand()%5)+1;
+        int dice = rand()%5;
 
         printf("\n\n%s rolled: %d\nAt the end of your turn a token in row %d will be moved\n",
          players[i].name, dice, dice);
 
          printf("\nDo you wish to move a token? 1 for yes\n");
-         int choice;
          scanf("%d", &choice);
 
-         
+         /*
          if (choice == 1) {
           printf("Choose a square with your token in it\n");
           int chooseToken;
@@ -220,17 +219,18 @@
                 }
             }
           }
-
+          */
 
           j=0;
-          while (board[dice][j].stack == NULL) {
+          while (board[dice][j+1].stack == NULL) {
             j++;    //Loop checks what colum the token to be moved is in
           }
           //Create memory for a token and move one 1 column right
-          board[dice][j].stack = (token *) malloc(sizeof(token));
-          board[dice][j].stack->col = push(board[dice][j-1].stack->col, top);
-          //Still need to pop old token
+          board[dice][j+1].stack = (token *) malloc(sizeof(token));
+          board[dice][j+1].stack = push(board[dice][j].stack->col, top);
+          board[dice][j].stack = pop(top);
           printf("\nToken was moved to [%d][%d]", dice, j);
+          print_board(board);
       }
      }
    }
