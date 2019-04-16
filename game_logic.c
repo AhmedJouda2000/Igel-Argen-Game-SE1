@@ -73,21 +73,20 @@
        //
        // function definitions for push/pop to stack
        //
-       struct token * push(enum color value, struct token *top){
-           struct token *curr = top;
-           top = malloc(sizeof(token));
-           top->col = value;
-           top->next = curr;
-           return top;
+
+       void push(struct token **top, enum color col){
+           struct token *curr = *top;
+           *top = malloc(sizeof(token));
+           (*top)->col = col;
+           (*top)->next = curr;
         }
 
-       struct token * pop(struct token *top){
-           struct token *curr = top;
+       void pop(struct token **top){
+           struct token *curr = *top;
            if(curr!=NULL){
-               top = curr->next;
+               *top = curr->next;
                free(curr);
            }
-           return top;
        }
 
 
@@ -137,9 +136,10 @@
           else if (minNumOfTokens == board[selectedSquare][0].numTokens )
           {
 
-              board[selectedSquare][0].stack = (token *) malloc(sizeof(token));
-              board[selectedSquare][0].stack = push(players[j].col, top);
+              //board[selectedSquare][0].stack = (token *) malloc(sizeof(token));
+              //board[selectedSquare][0].stack = players[j].stack->col;
               board[selectedSquare][0].numTokens++;
+              push(&board[selectedSquare][0].stack, players[j].col);
           }
 
           if (((numPlayers * i) + j + 1)%NUM_ROWS == 0)
@@ -147,10 +147,8 @@
             minNumOfTokens++;
             printf("\t\tminim no. tokens %d\n", minNumOfTokens);
           }
-          print_board(board);
       }
     }
-
     print_board(board);
   }
 
@@ -191,7 +189,7 @@
           scanf("%d %d", &chooseToken, &chooseToken2);
 
 
-            switch (chooseToken) {
+            /*switch (chooseToken) {
               case(0):
               //if top row picked token MUST move down
                 board[1][chooseToken2].stack->col = board[0][chooseToken2].stack->col;
@@ -225,11 +223,12 @@
             j++;    //Loop checks what colum the token to be moved is in
           }
           //Create memory for a token and move one 1 column right
-          board[dice][j+1].stack = (token *) malloc(sizeof(token));
-          board[dice][j+1].stack = push(board[dice][j].stack->col, top);
-          board[dice][j].stack = pop(top);
+        board[dice][j+1].stack = (token *) malloc(sizeof(token));
+        //  board[dice][j+1].stack = push(board[dice][j].stack->col, top);
+        //  board[dice][j].stack = pop(top);
           printf("\nToken was moved to [%d][%d+1]", dice, j);
-          print_board(board);
+          print_board(board); */
+        }
       }
-     }
+    }
    }
