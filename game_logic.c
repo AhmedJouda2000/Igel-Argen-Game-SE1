@@ -34,6 +34,7 @@
    * Input: the board to be printed.
    */
   void print_board(square board[NUM_ROWS][NUM_COLUMNS]){
+      system("cls");
       printf("                THE BOARD\n");
       for(int i =0; i < NUM_ROWS; i++){
 
@@ -119,19 +120,19 @@
         for (size_t j = 0; j < numPlayers; j++)
         {
 
-          printf("Player %d) %s please select a square\n", j, players[j].name);
+          printf("Player %d) %s please select a square\n", j+1, players[j].name);
           scanf("%d", &selectedSquare);
 
           while (minNumOfTokens != board[selectedSquare][0].numTokens) {
             printf("TRY AGAIN: MUST BE SQAURE WITH LEAST TOKENS\n");
-            printf("Player %d) %s please select a square\n", j, players[j].name);
+            printf("Player %d) %s please select a square\n", j+1, players[j].name);
             scanf("%d", &selectedSquare);
           }
 
           //Checks if user is blocking their own token in stack, only gives 1 chance
           if (board[selectedSquare][0].numTokens > 0 && board[selectedSquare][0].stack->col == players[j].col) {
               printf("\nError: can't place on your own colour\n");
-                  scanf("%d", &selectedSquare);
+                scanf("%d", &selectedSquare);
               }
           else if (minNumOfTokens == board[selectedSquare][0].numTokens )
           {
@@ -176,7 +177,7 @@
         srand(time(NULL));    //roll a dice here
         int dice = rand()%5;
 
-        printf("\n\n%s rolled: %d\nAt the end of your turn a token in row %d will be moved\n",
+        printf("\n%s rolled: %d\nAt the end of your turn a token in row %d will be moved\n",
          players[i].name, dice, dice);
 
          printf("\nDo you wish to move a token? 1 for yes\n");
@@ -189,8 +190,13 @@
           scanf("%d %d", &chooseToken, &chooseToken2);
           getchar();
 
-
-              switch (chooseToken) {
+          while (board[chooseToken][chooseToken2].stack->col != players[i].col) {
+            printf("\nCan only select a square with your token\n");
+            scanf("%d %d", &chooseToken, &chooseToken2);
+            getchar();
+            continue;
+          }
+             switch (chooseToken) {
               case(0):
               //if top row picked token MUST move down
               push(&board[1][chooseToken2].stack, board[0][chooseToken2].stack->col);
@@ -218,8 +224,8 @@
                 else {
                   printf("Error, not a valid direction\n");
                 }
-            }
-          }
+               }
+             }
 
           j=0;
           while (board[dice][j].stack == NULL) {
@@ -230,8 +236,8 @@
           push(&board[dice][j+1].stack, board[dice][j].stack->col);
           pop(&board[dice][j].stack);
 
-          printf("\nToken was moved to [%d][%d+1]", dice, j);
           print_board(board);
+          printf("\nToken was moved to [%d][%d]\n", dice, j+1);
         }
       }
     }
