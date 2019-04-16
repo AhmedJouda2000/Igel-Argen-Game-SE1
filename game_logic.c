@@ -146,9 +146,10 @@
             minNumOfTokens++;
             printf("\t\tminim no. tokens %d\n", minNumOfTokens);
           }
+          print_board(board);
       }
     }
-    print_board(board);
+
   }
 
 
@@ -186,23 +187,25 @@
           printf("Choose a square with your token in it (x,y)\n");
           int chooseToken, chooseToken2;
           scanf("%d %d", &chooseToken, &chooseToken2);
+          getchar();
 
 
-            switch (chooseToken) {
+              switch (chooseToken) {
               case(0):
               //if top row picked token MUST move down
-              push(&board[0][chooseToken2].stack, board[1][chooseToken2].stack->col);
+              push(&board[1][chooseToken2].stack, board[0][chooseToken2].stack->col);
               pop(&board[0][chooseToken2].stack);
-                break;
+              break;
 
               case (5):   //if bottom row picked token MUST move up
-              push(&board[6][chooseToken2].stack, board[5][chooseToken2].stack->col);
-              pop(&board[6][chooseToken2].stack);
-                break;
+              push(&board[4][chooseToken2].stack, board[5][chooseToken2].stack->col);
+              pop(&board[5][chooseToken2].stack);
+              break;
 
               default:  //else let user pick which direction to move
                 printf("What direction to move? (u) or (d)?\n");
                 scanf("%c", &direction);
+                getchar();
 
                 if (direction == 'u') {
                   push(&board[chooseToken-1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
