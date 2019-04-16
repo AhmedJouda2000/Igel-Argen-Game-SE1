@@ -137,7 +137,6 @@
           {
 
               //board[selectedSquare][0].stack = (token *) malloc(sizeof(token));
-              //board[selectedSquare][0].stack = players[j].stack->col;
               board[selectedSquare][0].numTokens++;
               push(&board[selectedSquare][0].stack, players[j].col);
           }
@@ -189,14 +188,16 @@
           scanf("%d %d", &chooseToken, &chooseToken2);
 
 
-            /*switch (chooseToken) {
+            switch (chooseToken) {
               case(0):
               //if top row picked token MUST move down
-                board[1][chooseToken2].stack->col = board[0][chooseToken2].stack->col;
+              push(&board[0][chooseToken2].stack, board[1][chooseToken2].stack->col);
+              pop(&board[0][chooseToken2].stack);
                 break;
 
               case (5):   //if bottom row picked token MUST move up
-                board[5][chooseToken2].stack->col = board[6][chooseToken2].stack->col;
+              push(&board[6][chooseToken2].stack, board[5][chooseToken2].stack->col);
+              pop(&board[6][chooseToken2].stack);
                 break;
 
               default:  //else let user pick which direction to move
@@ -204,12 +205,12 @@
                 scanf("%c", &direction);
 
                 if (direction == 'u') {
-                  board[chooseToken-1][chooseToken2].stack = push(board[chooseToken][chooseToken2].stack->col, top);
-                  board[chooseToken][chooseToken2].stack = pop(top);
+                  push(&board[chooseToken-1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
+                  pop(&board[chooseToken][chooseToken2].stack);
                 }
                 else if (direction == 'd') {
-                  board[chooseToken+1][chooseToken2].stack = push(board[chooseToken][chooseToken2].stack->col, top);
-                  board[chooseToken][chooseToken2].stack = pop(top);
+                  push(&board[chooseToken+1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
+                  pop(&board[chooseToken][chooseToken2].stack);
                 }
                 else {
                   printf("Error, not a valid direction\n");
@@ -217,18 +218,17 @@
             }
           }
 
-
           j=0;
           while (board[dice][j].stack == NULL) {
             j++;    //Loop checks what colum the token to be moved is in
           }
-          //Create memory for a token and move one 1 column right
-        board[dice][j+1].stack = (token *) malloc(sizeof(token));
-        //  board[dice][j+1].stack = push(board[dice][j].stack->col, top);
-        //  board[dice][j].stack = pop(top);
+
+          // Move one token 1 column right
+          push(&board[dice][j+1].stack, board[dice][j].stack->col);
+          pop(&board[dice][j].stack);
+
           printf("\nToken was moved to [%d][%d+1]", dice, j);
-          print_board(board); */
+          print_board(board);
         }
       }
     }
-   }
