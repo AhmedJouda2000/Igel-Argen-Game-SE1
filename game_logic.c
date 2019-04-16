@@ -110,7 +110,7 @@
       int minNumOfTokens = 0;
       int selectedSquare = 0;
 
-
+      int j=0;
       for (size_t z = 0; z < 6; z++) {
         board[z][0].numTokens = 0;
       }
@@ -147,6 +147,7 @@
             minNumOfTokens++;
             printf("\t\tminim no. tokens %d\n", minNumOfTokens);
           }
+          print_board(board);
       }
     }
 
@@ -183,43 +184,41 @@
          printf("\nDo you wish to move a token? 1 for yes\n");
          scanf("%d", &choice);
 
-         /*
-         if (choice == 1) {
-          printf("Choose a square with your token in it\n");
-          int chooseToken;
-          scanf("%d", &chooseToken);
 
-            j=0;
-              while (board[chooseToken][j].stack != NULL) {
-                j++;    //Loop checks what colum the token to be moved is in
-               }
+         if (choice == 1) {
+          printf("Choose a square with your token in it (x,y)\n");
+          int chooseToken, chooseToken2;
+          scanf("%d %d", &chooseToken, &chooseToken2);
+
 
             switch (chooseToken) {
-              case(0):   //if top row picked token MUST move down
-                board[1][j].stack->col = board[0][j].stack->col;
+              case(0):
+              //if top row picked token MUST move down
+                board[1][chooseToken2].stack->col = board[0][chooseToken2].stack->col;
                 break;
 
               case (5):   //if bottom row picked token MUST move up
-                board[5][j].stack->col = board[6][j].stack->col;
+                board[5][chooseToken2].stack->col = board[6][chooseToken2].stack->col;
                 break;
 
               default:  //else let user pick which direction to move
                 printf("What direction to move? (u) or (d)?\n");
-                fflush(stdin);
                 scanf("%c", &direction);
 
                 if (direction == 'u') {
-                  board[chooseToken-1][j].stack->col = board[chooseToken][j].stack->col;
+                  board[chooseToken-1][chooseToken2].stack = push(board[chooseToken][chooseToken2].stack->col, top);
+                  board[chooseToken][chooseToken2].stack = pop(top);
                 }
                 else if (direction == 'd') {
-                  board[chooseToken+1][j].stack->col = board[chooseToken][j].stack->col;
+                  board[chooseToken+1][chooseToken2].stack = push(board[chooseToken][chooseToken2].stack->col, top);
+                  board[chooseToken][chooseToken2].stack = pop(top);
                 }
                 else {
                   printf("Error, not a valid direction\n");
                 }
             }
           }
-          */
+
 
           j=0;
           while (board[dice][j].stack == NULL) {
