@@ -130,11 +130,13 @@
           }
 
           //Checks if user is blocking their own token in stack, only gives 1 chance
-          if (board[selectedSquare][0].numTokens > 0 && board[selectedSquare][0].stack->col == players[j].col) {
-              printf("\nError: can't place on your own colour\n");
-                scanf("%d", &selectedSquare);
-              }
-          else if (minNumOfTokens == board[selectedSquare][0].numTokens )
+          while (board[selectedSquare][0].numTokens > 0 && board[selectedSquare][0].stack->col == players[j].col) {
+            printf("\nError: can't place on your own colour\n");
+            printf("Player %d) %s please select a square\n", j+1, players[j].name);
+            scanf("%d", &selectedSquare);
+          }
+
+          if (minNumOfTokens == board[selectedSquare][0].numTokens )
           {
 
               //board[selectedSquare][0].stack = (token *) malloc(sizeof(token));
@@ -235,7 +237,7 @@
           }
           printf("Choose a square: ");
           scanf("%d", &j);
-          
+
           while (board[dice][j].stack == NULL) {
             printf("Invalid input\nChoose: ");
             scanf("%d", &j);
