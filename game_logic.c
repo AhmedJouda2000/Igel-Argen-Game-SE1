@@ -227,9 +227,18 @@
                }
              }
 
-          j=0;
+          printf("\nYou can move tokens in squares:\n");
+          for (size_t k=0;k<9;k++) {
+              if (board[dice][k].stack != NULL) {
+                printf("[%d][%d]\n",dice, k);
+              }
+          }
+          printf("Choose a square: ");
+          scanf("%d", &j);
+          
           while (board[dice][j].stack == NULL) {
-            j++;    //Loop checks what colum the token to be moved is in
+            printf("Invalid input\nChoose: ");
+            scanf("%d", &j);
           }
 
           // Move one token 1 column right
