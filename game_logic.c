@@ -165,7 +165,23 @@
    */
 
    int check_win(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers) {
-     return 1;
+     int over = 0, i;
+
+     for (i=0;i<numPlayers;i++) {
+       if (players[i].numTokensLastCol >= 3) {
+         over = 1;
+         break;
+       }
+     }
+      if (over == 1) {
+        print_board(board);
+        printLine();
+        printf("%s Wins!", players[i].name);
+          return -1;
+        }
+     else {
+       return 1;
+     }
    }
 
   void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
@@ -175,7 +191,7 @@
     while (check_win(board, players, numPlayers)) {
       for (size_t i=0; i<numPlayers; i++) {
         srand(time(NULL));    //roll a dice here
-        int dice = rand()%5;
+        int dice = rand()%6;
 
         printf("\n%s rolled: %d\nAt the end of your turn a token in row %d will be moved\n",
          players[i].name, dice, dice);
@@ -190,7 +206,7 @@
           scanf("%d %d", &chooseToken, &chooseToken2);
           getchar();
 
-          while (board[chooseToken][chooseToken2].stack->col != players[i].col) {
+          while (board[chooseToken][chooseToken2].stack->col != players[i].col || board[chooseToken][chooseToken2].stack == NULL) {
             printf("\nCan only select a square with your token\n");
             scanf("%d %d", &chooseToken, &chooseToken2);
             getchar();
@@ -235,6 +251,15 @@
           // Move one token 1 column right
           push(&board[dice][j+1].stack, board[dice][j].stack->col);
           pop(&board[dice][j].stack);
+
+          if (j+1 == 8) {
+            for (size_t k=0;k<numPlayers;k++) {
+              if (board[dice][8].stack->col == players[k].col) {
+                players[k].numTokensLastCol++;
+                pop(&board[dice][8]);
+              }
+            }
+          }
 
           print_board(board);
           printf("\nToken was moved to [%d][%d]\n", dice, j+1);
