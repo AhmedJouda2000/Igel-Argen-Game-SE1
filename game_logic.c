@@ -167,12 +167,24 @@
    */
 
    int check_win(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers) {
-     return 1;
+     for (size_t i = 0; i < numPlayers; i++) {
+       if (players[i].numTokensLastCol == 3) {
+         printf("**** %s HAS WON ****\n", players[i].name);
+         return 0;
+       }
+       else return 1;
+     }
+
    }
 
   void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
     int j, choice;
     char direction;
+
+    for (size_t c = 0; c < numPlayers; c++) {
+      players[c].numTokensLastCol = 0;
+    }
+
 
     while (check_win(board, players, numPlayers)) {
       for (size_t i=0; i<numPlayers; i++) {
@@ -249,6 +261,17 @@
 
           print_board(board);
           printf("\nToken was moved to [%d][%d]\n", dice, j+1);
+
+
+          if ((j+1) == 8)
+          {
+            for (size_t w = 0; w < numPlayers; w++) {
+              if (board[dice][j+1].stack->col == players[w].col) {
+                players[w].numTokensLastCol++;
+              }
+            }
+          }
+          printf("\n\n\nHALLO: %d\n\n\n", players[i].numTokensLastCol);
         }
       }
     }
