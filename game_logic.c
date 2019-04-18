@@ -120,19 +120,19 @@
         for (size_t j = 0; j < numPlayers; j++)
         {
 
-          printf("Player %d) %s please select a square\n", j+1, players[j].name);
+          printf("Player %d - %sPlease select a square (Row 0 - 5)\n", j+1, players[j].name);
           scanf("%d", &selectedSquare);
 
           while (minNumOfTokens != board[selectedSquare][0].numTokens) {
             printf("TRY AGAIN: MUST BE SQAURE WITH LEAST TOKENS\n");
-            printf("Player %d) %s please select a square\n", j+1, players[j].name);
+            printf("Player %d %sPlease select a square\n", j+1, players[j].name);
             scanf("%d", &selectedSquare);
           }
 
           //Checks if user is blocking their own token in stack, only gives 1 chance
           while (board[selectedSquare][0].numTokens > 0 && board[selectedSquare][0].stack->col == players[j].col) {
             printf("\nError: can't place on your own colour\n");
-            printf("Player %d) %s please select a square\n", j+1, players[j].name);
+            printf("Player %d %sPlease select a square\n", j+1, players[j].name);
             scanf("%d", &selectedSquare);
           }
 
@@ -169,7 +169,7 @@
    int check_win(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers) {
      for (size_t i = 0; i < numPlayers; i++) {
        if (players[i].numTokensLastCol == 3) {
-         printf("**** %s HAS WON ****\n", players[i].name);
+         printf("**********\nTHE WINNER IS %s**********\n", players[i].name);
          return 0;
        }
        else return 1;
@@ -191,21 +191,21 @@
         srand(time(NULL));    //roll a dice here
         int dice = rand()%5;
 
-        printf("\n%s rolled: %d\nAt the end of your turn a token in row %d will be moved\n",
+        printf("\nTurn: %sRolled: %d\nAt the end of your turn a token in row %d will be moved\n",
          players[i].name, dice, dice);
 
-         printf("\nDo you wish to move a token? 1 for yes\n");
+         printf("\nDo you wish to move a token? 1 for Yes\n");
          scanf("%d", &choice);
 
 
          if (choice == 1) {
-          printf("Choose a square with your token in it (x,y)\n");
+          printf("Choose a square with your token in it [y x]\n");
           int chooseToken, chooseToken2;
           scanf("%d %d", &chooseToken, &chooseToken2);
           getchar();
 
           while (board[chooseToken][chooseToken2].stack->col != players[i].col) {
-            printf("\nCan only select a square with your token\n");
+            printf("\nMust Select a square with your token\n");
             scanf("%d %d", &chooseToken, &chooseToken2);
             getchar();
             continue;
@@ -227,11 +227,11 @@
                 scanf("%c", &direction);
                 getchar();
 
-                if (direction == 'u') {
+                if (direction == 'u' || direction == 'U') {
                   push(&board[chooseToken-1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
                   pop(&board[chooseToken][chooseToken2].stack);
                 }
-                else if (direction == 'd') {
+                else if (direction == 'd' || direction == 'D') {
                   push(&board[chooseToken+1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
                   pop(&board[chooseToken][chooseToken2].stack);
                 }
@@ -247,31 +247,40 @@
                 printf("[%d][%d]\n",dice, k);
               }
           }
-          printf("Choose a square: ");
-          scanf("%d", &j);
 
-          while (board[dice][j].stack == NULL) {
-            printf("Invalid input\nChoose: ");
-            scanf("%d", &j);
-          }
+          for (size_t r = 0; r < 8; r++) {
+            if (board[dice][r].stack != NULL) {
+              printf("Enter the column of the square you want to move:");
+              scanf("%d", &j);
 
-          // Move one token 1 column right
-          push(&board[dice][j+1].stack, board[dice][j].stack->col);
-          pop(&board[dice][j].stack);
-
-          print_board(board);
-          printf("\nToken was moved to [%d][%d]\n", dice, j+1);
-
-
-          if ((j+1) == 8)
-          {
-            for (size_t w = 0; w < numPlayers; w++) {
-              if (board[dice][j+1].stack->col == players[w].col) {
-                players[w].numTokensLastCol++;
+              while (board[dice][j].stack == NULL || j >= 8) {
+                printf("Invalid input\nChoose: ");
+                scanf("%d", &j);
               }
+
+              // Move one token 1 column right
+              push(&board[dice][j+1].stack, board[dice][j].stack->col);
+              pop(&board[dice][j].stack);
+
+              print_board(board);
+              printf("\nToken was moved to [%d][%d]\n", dice, j+1);
+
+              if ((j+1) == 8)
+              {
+                for (size_t w = 0; w < numPlayers; w++) {
+                  if (board[dice][j+1].stack->col == players[w].col) {
+                    players[w].numTokensLastCol++;
+                    printf("\n\nUPDATE: %sTokens in last column = %d\n\n", players[w].name, players[w].numTokensLastCol);
+                  }
+                }
+              }
+              break;
             }
           }
-          printf("\n\n\nHALLO: %d\n\n\n", players[i].numTokensLastCol);
+
+
+
+
         }
       }
     }
