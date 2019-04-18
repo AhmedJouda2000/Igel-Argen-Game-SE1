@@ -69,7 +69,7 @@ int initialize_players(player players[]){
     printf("\n****Game Intialized****\n");
     for (size_t z = 0; z < i; z++)
     {
-      printf("Player %d: %sColour: %d\n\n", z, players[z].name, players[z].col);
+      printf("Player %d: %sColour: %d\n\n", z, players[z].name+1, players[z].col);
     }
     printf("\nTotal number of Players: %d\n\n", i);
     printf("----------------------------------------------------\n\n");

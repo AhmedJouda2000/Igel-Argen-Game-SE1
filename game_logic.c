@@ -95,18 +95,11 @@
     printf("   -------------------------------------\n");
   }
 
-  /*
-   * Place tokens in the first column of the board
-   *
-   * Input: board - a 6x9 array of squares that represents the board
-   *        players - the array of the players
-   *        numPlayers - the number of players
-   */
-
-
+  //
+  // Function for placing token at the start of the game
+  //
   void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers)
   {
-      // TO BE IMPLEMENTED
       int minNumOfTokens = 0;
       int selectedSquare = 0;
 
@@ -138,8 +131,6 @@
 
           if (minNumOfTokens == board[selectedSquare][0].numTokens )
           {
-
-              //board[selectedSquare][0].stack = (token *) malloc(sizeof(token));
               board[selectedSquare][0].numTokens++;
               push(&board[selectedSquare][0].stack, players[j].col);
           }
@@ -155,17 +146,9 @@
 
   }
 
-
-  /*
-   * Place tokens in the first column of the board
-   *
-   if (players[j].col != board[selectedSquare][0].stack->col)
-   {
-   * Input: board - a 6x9 array of squares that represents the board
-   *        players - the array of the players
-   *        numPlayers - the number of players
-   */
-
+  //
+  // Function to check if someone has one
+  //
    int check_win(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers) {
      for (size_t i = 0; i < numPlayers; i++) {
        if (players[i].numTokensLastCol == 3) {
@@ -177,6 +160,28 @@
 
    }
 
+   //
+   // Function to handle obstacle squares
+   //
+    int on_obstacle_square(square board[NUM_ROWS][NUM_COLUMNS], int dice, int j) {
+      int canProceed = 1;
+
+      if (board[dice][j].type == OBSTACLE) {
+        for (size_t i=0;i<j;i++) {
+          for (size_t k=0;k<=6;k++){
+            if (board[k][i].stack != NULL) {
+              canProceed = 0;
+            }
+          }
+        }
+      }
+
+      return canProceed;
+    }
+
+  //
+  // Function where most game actions take place
+  //
   void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
     int j, choice;
     char direction;
@@ -258,27 +263,30 @@
                 scanf("%d", &j);
               }
 
-              // Move one token 1 column right
-              push(&board[dice][j+1].stack, board[dice][j].stack->col);
-              pop(&board[dice][j].stack);
+                if(on_obstacle_square(board, dice, j)) {
+                // Move one token 1 column right
+                push(&board[dice][j+1].stack, board[dice][j].stack->col);
+                pop(&board[dice][j].stack);
 
-              print_board(board);
-              printf("\nToken was moved to [%d][%d]\n", dice, j+1);
+                print_board(board);
+                printf("\nToken was moved to [%d][%d]\n", dice, j+1);
 
-              if ((j+1) == 8)
-              {
-                for (size_t w = 0; w < numPlayers; w++) {
-                  if (board[dice][j+1].stack->col == players[w].col) {
-                    players[w].numTokensLastCol++;
-                    printf("\n\nUPDATE: %sTokens in last column = %d\n\n", players[w].name, players[w].numTokensLastCol);
+                if ((j+1) == 8)
+                {
+                  for (size_t w = 0; w < numPlayers; w++) {
+                    if (board[dice][j+1].stack->col == players[w].col) {
+                      players[w].numTokensLastCol++;
+                      printf("\n\nUPDATE: %sTokens in last column = %d\n\n", players[w].name, players[w].numTokensLastCol);
+                    }
                   }
                 }
+              }
+              else {
+                printf("\nSquare [%d][%d] is an obstacle! No token moved", dice, j);
               }
               break;
             }
           }
-
-
 
 
         }
