@@ -215,7 +215,7 @@
             getchar();
             continue;
           }
-             switch (chooseToken) {
+            switch (chooseToken) {
               case(0):
               //if top row picked token MUST move down
               push(&board[1][chooseToken2].stack, board[0][chooseToken2].stack->col);
