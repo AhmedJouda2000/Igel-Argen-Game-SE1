@@ -34,7 +34,6 @@
    * Input: the board to be printed.
    */
   void print_board(square board[NUM_ROWS][NUM_COLUMNS]){
-      system("cls");
       printf("                THE BOARD\n");
       for(int i =0; i < NUM_ROWS; i++){
 
@@ -140,6 +139,7 @@
             minNumOfTokens++;
             printf("\t\tminim no. tokens %d\n", minNumOfTokens);
           }
+          system("cls");
           print_board(board);
       }
     }
@@ -196,7 +196,7 @@
         srand(time(NULL));    //roll a dice here
         int dice = rand()%5;
 
-        printf("\nTurn: %sRolled: %d\nAt the end of your turn a token in row %d will be moved\n",
+        printf("\nTurn: %sDice rolled: %d\nAt the end of your turn a token in row %d will be moved\n",
          players[i].name, dice, dice);
 
          printf("\nDo you wish to move a token? 1 for Yes\n");
@@ -246,6 +246,7 @@
                }
              }
 
+          print_board(board);
           printf("\nYou can move tokens in squares:\n");
           for (size_t k=0;k<9;k++) {
               if (board[dice][k].stack != NULL) {
