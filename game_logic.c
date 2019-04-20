@@ -210,144 +210,148 @@
 
     while (check_win(board, players, numPlayers)) {
       for (size_t i=0; i<numPlayers; i++) {
-        srand(time(NULL));    //roll a dice here
-        int dice = rand()%6;
+        while (check_win(board, players, numPlayers)) {
 
-        printf("\nTurn: %sDice rolled: %d\nAt the end of your turn a token in row %d will be moved\n",
-         players[i].name, dice, dice);
+          srand(time(NULL));    //roll a dice here
+          int dice = rand()%6;
 
-         printf("\nDo you wish to move a token up or down (sidestep)? 1 for Yes\n");
-         scanf("%d", &choice);
+          printf("\nTurn: %sDice rolled: %d\nAt the end of your turn a token in row %d will be moved\n",
+           players[i].name, dice, dice);
 
-
-         if (choice == 1) {
-           int chooseToken = -1, chooseToken2 = -1;
-           while (chooseToken<0 || chooseToken>5)
-           {
-             printf("Enter the row (0-5) of the square with your token in it\n");
-             scanf("%d", &chooseToken);
-             getchar();
-           }
-
-          while (chooseToken2<0 || chooseToken2>8)
-          {
-            printf("Enter the column (0-8) of the square with your token in it\n");
-            scanf("%d", &chooseToken2);
-            getchar();
-          }
+           printf("\nDo you wish to move a token up or down (sidestep)? 1 for Yes\n");
+           scanf("%d", &choice);
 
 
-          while (board[chooseToken][chooseToken2].stack == NULL || board[chooseToken][chooseToken2].stack->col != players[i].col) {
-            printf("\nMust Select a square with your token\n");
+           if (choice == 1) {
+             int chooseToken = -1, chooseToken2 = -1;
+             while (chooseToken<0 || chooseToken>5)
+             {
+               printf("Enter the row (0-5) of the square with your token in it\n");
+               scanf("%d", &chooseToken);
+               getchar();
+             }
 
-            do {
-              printf("Enter the row (0-5) of the square with your token in it\n");
-              scanf("%d", &chooseToken);
-              getchar();
-            } while(chooseToken<0 || chooseToken>5);
-
-            do {
+            while (chooseToken2<0 || chooseToken2>8)
+            {
               printf("Enter the column (0-8) of the square with your token in it\n");
               scanf("%d", &chooseToken2);
               getchar();
-            } while(chooseToken2<0 || chooseToken2>8);
+            }
 
-            continue;
-          }
-            switch (chooseToken) {
-              case(0):
-              //if top row picked token MUST move down
-              if(on_obstacle_square(board, 0, chooseToken2)) {
-                push(&board[1][chooseToken2].stack, board[0][chooseToken2].stack->col);
-                pop(&board[0][chooseToken2].stack);
-              }
-              else {
-                printf("\n[0][%d] is an obstacle square", chooseToken, chooseToken2);
-              }
-              break;
 
-              case (5):   //if bottom row picked token MUST move up
-              if(on_obstacle_square(board, 5, chooseToken2)) {
-                push(&board[4][chooseToken2].stack, board[5][chooseToken2].stack->col);
-                pop(&board[5][chooseToken2].stack);
-              }
-              else {
-                printf("\n[5][%d] is an obstacle square", chooseToken, chooseToken2);
-              }
-              break;
+            while (board[chooseToken][chooseToken2].stack == NULL || board[chooseToken][chooseToken2].stack->col != players[i].col) {
+              printf("\nMust Select a square with your token\n");
 
-              default:  //else let user pick which direction to move
-                printf("What direction to move? (u) or (d)?\n");
-                scanf("%c", &direction);
+              do {
+                printf("Enter the row (0-5) of the square with your token in it\n");
+                scanf("%d", &chooseToken);
                 getchar();
+              } while(chooseToken<0 || chooseToken>5);
 
-                if (direction == 'u' || direction == 'U') {
-                  if(on_obstacle_square(board, chooseToken, chooseToken2)) {
-                    push(&board[chooseToken-1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
-                    pop(&board[chooseToken][chooseToken2].stack);
-                  }
-                  else {
-                    printf("\n[%d][%d] is an obstacle square", chooseToken, chooseToken2);
-                  }
-                }
-                else if (direction == 'd' || direction == 'D') {
-                  if(on_obstacle_square(board, chooseToken, chooseToken2)) {
-                    push(&board[chooseToken+1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
-                    pop(&board[chooseToken][chooseToken2].stack);
-                  }
-                  else {
-                    printf("\n[%d][%d] is an obstacle square", chooseToken, chooseToken2);
-                  }
+              do {
+                printf("Enter the column (0-8) of the square with your token in it\n");
+                scanf("%d", &chooseToken2);
+                getchar();
+              } while(chooseToken2<0 || chooseToken2>8);
+
+              continue;
+            }
+              switch (chooseToken) {
+                case(0):
+                //if top row picked token MUST move down
+                if(on_obstacle_square(board, 0, chooseToken2)) {
+                  push(&board[1][chooseToken2].stack, board[0][chooseToken2].stack->col);
+                  pop(&board[0][chooseToken2].stack);
                 }
                 else {
-                  printf("Error, not a valid direction\n");
+                  printf("\n[0][%d] is an obstacle square", chooseToken, chooseToken2);
                 }
+                break;
+
+                case (5):   //if bottom row picked token MUST move up
+                if(on_obstacle_square(board, 5, chooseToken2)) {
+                  push(&board[4][chooseToken2].stack, board[5][chooseToken2].stack->col);
+                  pop(&board[5][chooseToken2].stack);
+                }
+                else {
+                  printf("\n[5][%d] is an obstacle square", chooseToken, chooseToken2);
+                }
+                break;
+
+                default:  //else let user pick which direction to move
+                  printf("What direction to move? (u) or (d)?\n");
+                  scanf("%c", &direction);
+                  getchar();
+
+                  if (direction == 'u' || direction == 'U') {
+                    if(on_obstacle_square(board, chooseToken, chooseToken2)) {
+                      push(&board[chooseToken-1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
+                      pop(&board[chooseToken][chooseToken2].stack);
+                    }
+                    else {
+                      printf("\n[%d][%d] is an obstacle square", chooseToken, chooseToken2);
+                    }
+                  }
+                  else if (direction == 'd' || direction == 'D') {
+                    if(on_obstacle_square(board, chooseToken, chooseToken2)) {
+                      push(&board[chooseToken+1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
+                      pop(&board[chooseToken][chooseToken2].stack);
+                    }
+                    else {
+                      printf("\n[%d][%d] is an obstacle square", chooseToken, chooseToken2);
+                    }
+                  }
+                  else {
+                    printf("Error, not a valid direction\n");
+                  }
+                 }
                }
-             }
 
-          print_board(board);
-          printf("\nYou can move tokens in squares:\n");
-          for (size_t k=0;k<9;k++) {
-              if (board[dice][k].stack != NULL) {
-                printf("[%d][%d]\n",dice, k);
-              }
-          }
+            print_board(board);
+            printf("\nYou can move tokens in squares:\n");
+            for (size_t k=0;k<9;k++) {
+                if (board[dice][k].stack != NULL) {
+                  printf("[%d][%d]\n",dice, k);
+                }
+            }
 
-          for (size_t r = 0; r < 8; r++) {
-            if (board[dice][r].stack != NULL) {
-              printf("Enter the column of the square you want to move:");
-              scanf("%d", &j);
-
-              while (board[dice][j].stack == NULL || j >= 8) {
-                printf("Invalid input\nChoose: ");
+            for (size_t r = 0; r < 8; r++) {
+              if (board[dice][r].stack != NULL) {
+                printf("Enter the column of the square you want to move:");
                 scanf("%d", &j);
-              }
 
-                if(on_obstacle_square(board, dice, j)) {
-                // Move one token 1 column right
-                push(&board[dice][j+1].stack, board[dice][j].stack->col);
-                pop(&board[dice][j].stack);
+                while (board[dice][j].stack == NULL || j >= 8) {
+                  printf("Invalid input\nChoose: ");
+                  scanf("%d", &j);
+                }
 
-                system("cls");
-                print_board(board);
-                printf("\nToken was moved to [%d][%d]\n", dice, j+1);
+                  if(on_obstacle_square(board, dice, j)) {
+                  // Move one token 1 column right
+                  push(&board[dice][j+1].stack, board[dice][j].stack->col);
+                  pop(&board[dice][j].stack);
 
-                if ((j+1) == 8)
-                {
-                  for (size_t w = 0; w < numPlayers; w++) {
-                    if (board[dice][j+1].stack->col == players[w].col) {
-                      players[w].numTokensLastCol++;
-                      printf("\n\nUPDATE: %sTokens in last column = %d\n\n", players[w].name, players[w].numTokensLastCol);
+                  system("cls");
+                  print_board(board);
+                  printf("\nToken was moved to [%d][%d]\n", dice, j+1);
+
+                  if ((j+1) == 8)
+                  {
+                    for (size_t w = 0; w < numPlayers; w++) {
+                      if (board[dice][j+1].stack->col == players[w].col) {
+                        players[w].numTokensLastCol++;
+                        printf("\n\nUPDATE: %sTokens in last column = %d\n\n", players[w].name, players[w].numTokensLastCol);
+                      }
                     }
                   }
                 }
+                else {
+                  printf("\nSquare [%d][%d] is an obstacle! No token moved\n", dice, j);
+                }
+                break;
               }
-              else {
-                printf("\nSquare [%d][%d] is an obstacle! No token moved\n", dice, j);
-              }
-              break;
             }
-          }
+        }
+
 
 
         }
