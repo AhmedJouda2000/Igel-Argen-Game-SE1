@@ -51,8 +51,13 @@ int initialize_players(player players[]){
       printf("Please enter your name:\n");
       fgets(players[i].name, 20, stdin);
       //Checks whether a carriage return symbol was provided as input
-      if(players[i].name[0] == '\n')
+      if(players[i].name[0] == '\n' && i > 1)
           break;
+
+      while (players[i].name[0] == '\n') {
+        printf("Minimum players is 2, please enter name: \n");
+        fgets(players[i].name, 20, stdin);
+      }
 
       printf("Please Pick a colour:\n");
       for (size_t j = 0; j < 6; j++)
@@ -69,7 +74,27 @@ int initialize_players(player players[]){
     printf("\n****Game Intialized****\n");
     for (size_t z = 0; z < i; z++)
     {
-      printf("Player %d: %sColour: %d\n\n", z+1, players[z].name, players[z].col);
+      printf("Player %d: %sColour: ", z+1, players[z].name);
+      switch (players[z].col) {
+        case(0):
+          printf("Red\n\n");
+          break;
+        case(1):
+          printf("Blu\n\n");
+          break;
+        case(2):
+          printf("Green\n\n");
+          break;
+        case(3):
+          printf("Yellow\n\n");
+          break;
+        case(4):
+          printf("Pink\n\n");
+          break;
+        case(5):
+          printf("Orange\n");
+          break;
+      }
     }
     printf("\nTotal number of Players: %d\n\n", i);
     printf("----------------------------------------------------\n\n");

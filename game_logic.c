@@ -209,7 +209,7 @@
           scanf("%d %d", &chooseToken, &chooseToken2);
           getchar();
 
-          while (board[chooseToken][chooseToken2].stack->col != players[i].col) {
+          while (board[chooseToken][chooseToken2].stack == NULL || board[chooseToken][chooseToken2].stack->col != players[i].col) {
             printf("\nMust Select a square with your token\n");
             scanf("%d %d", &chooseToken, &chooseToken2);
             getchar();
@@ -218,13 +218,23 @@
             switch (chooseToken) {
               case(0):
               //if top row picked token MUST move down
-              push(&board[1][chooseToken2].stack, board[0][chooseToken2].stack->col);
-              pop(&board[0][chooseToken2].stack);
+              if(on_obstacle_square(board, 0, chooseToken2)) {
+                push(&board[1][chooseToken2].stack, board[0][chooseToken2].stack->col);
+                pop(&board[0][chooseToken2].stack);
+              }
+              else {
+                printf("\n[0][%d] is an obstacle square", chooseToken, chooseToken2);
+              }
               break;
 
               case (5):   //if bottom row picked token MUST move up
-              push(&board[4][chooseToken2].stack, board[5][chooseToken2].stack->col);
-              pop(&board[5][chooseToken2].stack);
+              if(on_obstacle_square(board, 5, chooseToken2)) {
+                push(&board[4][chooseToken2].stack, board[5][chooseToken2].stack->col);
+                pop(&board[5][chooseToken2].stack);
+              }
+              else {
+                printf("\n[5][%d] is an obstacle square", chooseToken, chooseToken2);
+              }
               break;
 
               default:  //else let user pick which direction to move
@@ -233,12 +243,22 @@
                 getchar();
 
                 if (direction == 'u' || direction == 'U') {
-                  push(&board[chooseToken-1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
-                  pop(&board[chooseToken][chooseToken2].stack);
+                  if(on_obstacle_square(board, chooseToken, chooseToken2)) {
+                    push(&board[chooseToken-1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
+                    pop(&board[chooseToken][chooseToken2].stack);
+                  }
+                  else {
+                    printf("\n[%d][%d] is an obstacle square", chooseToken, chooseToken2);
+                  }
                 }
                 else if (direction == 'd' || direction == 'D') {
-                  push(&board[chooseToken+1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
-                  pop(&board[chooseToken][chooseToken2].stack);
+                  if(on_obstacle_square(board, chooseToken, chooseToken2)) {
+                    push(&board[chooseToken+1][chooseToken2].stack, board[chooseToken][chooseToken2].stack->col);
+                    pop(&board[chooseToken][chooseToken2].stack);
+                  }
+                  else {
+                    printf("\n[%d][%d] is an obstacle square", chooseToken, chooseToken2);
+                  }
                 }
                 else {
                   printf("Error, not a valid direction\n");
