@@ -194,7 +194,7 @@
     while (check_win(board, players, numPlayers)) {
       for (size_t i=0; i<numPlayers; i++) {
         srand(time(NULL));    //roll a dice here
-        int dice = rand()%5;
+        int dice = rand()%6;
 
         printf("\nTurn: %sDice rolled: %d\nAt the end of your turn a token in row %d will be moved\n",
          players[i].name, dice, dice);
