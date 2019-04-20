@@ -173,7 +173,6 @@
        }
        else return 1;
      }
-
    }
 
    //
@@ -184,14 +183,16 @@
 
       if (board[dice][j].type == OBSTACLE) {
         for (size_t i=0;i<j;i++) {
-          for (size_t k=0;k<=6;k++){
+          for (size_t k=0;k<6;k++) {
             if (board[k][i].stack != NULL) {
               canProceed = 0;
             }
           }
         }
       }
-
+      if (canProceed == 1) {
+        board[dice][j].type = NORMAL;
+      }
       return canProceed;
     }
 
@@ -250,7 +251,7 @@
               scanf("%d", &chooseToken2);
               getchar();
             } while(chooseToken2<0 || chooseToken2>8);
-            
+
             continue;
           }
             switch (chooseToken) {
@@ -327,6 +328,7 @@
                 push(&board[dice][j+1].stack, board[dice][j].stack->col);
                 pop(&board[dice][j].stack);
 
+                system("cls");
                 print_board(board);
                 printf("\nToken was moved to [%d][%d]\n", dice, j+1);
 
@@ -341,7 +343,7 @@
                 }
               }
               else {
-                printf("\nSquare [%d][%d] is an obstacle! No token moved", dice, j);
+                printf("\nSquare [%d][%d] is an obstacle! No token moved\n", dice, j);
               }
               break;
             }

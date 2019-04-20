@@ -17,7 +17,6 @@ void print_board(square board[NUM_ROWS][NUM_COLUMNS]);
 void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
 
 
-
 /*
  *  * Manages the logic of the game
  *

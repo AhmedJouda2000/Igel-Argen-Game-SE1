@@ -43,6 +43,7 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
 int initialize_players(player players[]){
 
     char* colours[6] = {"RED", "BLU", "GREEN", "YELLOW", "PINK", "ORANGE"};
+    int colourFlags[6] = {0,0,0,0,0,0};
 
     int choice;
     int i = 0;
@@ -67,7 +68,14 @@ int initialize_players(player players[]){
       scanf("%d", &choice);
       getchar();
       choice--;
+      while (colourFlags[choice] == 1) {
+        printf("Colour already chosen! Please pick a different colour:\n");
+        scanf("%d", &choice);
+        getchar();
+        choice--;
+      }
       players[i].col = choice;
+      colourFlags[choice] = 1;
       i++;
     }
 

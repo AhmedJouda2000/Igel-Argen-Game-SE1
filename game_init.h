@@ -26,6 +26,7 @@ enum color {
     RED, BLU, GREEN, YELLOW, PINK, ORANGE
 };
 
+
 //defines a token.
 //Note each token can be associated with a color
 typedef struct token{
