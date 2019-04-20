@@ -215,20 +215,42 @@
         printf("\nTurn: %sDice rolled: %d\nAt the end of your turn a token in row %d will be moved\n",
          players[i].name, dice, dice);
 
-         printf("\nDo you wish to move a token? 1 for Yes\n");
+         printf("\nDo you wish to move a token up or down (sidestep)? 1 for Yes\n");
          scanf("%d", &choice);
 
 
          if (choice == 1) {
-          printf("Choose a square with your token in it [y x]\n");
-          int chooseToken, chooseToken2;
-          scanf("%d %d", &chooseToken, &chooseToken2);
-          getchar();
+           int chooseToken = -1, chooseToken2 = -1;
+           while (chooseToken<0 || chooseToken>5)
+           {
+             printf("Enter the row (0-5) of the square with your token in it\n");
+             scanf("%d", &chooseToken);
+             getchar();
+           }
+
+          while (chooseToken2<0 || chooseToken2>8)
+          {
+            printf("Enter the column (0-8) of the square with your token in it\n");
+            scanf("%d", &chooseToken2);
+            getchar();
+          }
+
 
           while (board[chooseToken][chooseToken2].stack == NULL || board[chooseToken][chooseToken2].stack->col != players[i].col) {
             printf("\nMust Select a square with your token\n");
-            scanf("%d %d", &chooseToken, &chooseToken2);
-            getchar();
+
+            do {
+              printf("Enter the row (0-5) of the square with your token in it\n");
+              scanf("%d", &chooseToken);
+              getchar();
+            } while(chooseToken<0 || chooseToken>5);
+
+            do {
+              printf("Enter the column (0-8) of the square with your token in it\n");
+              scanf("%d", &chooseToken2);
+              getchar();
+            } while(chooseToken2<0 || chooseToken2>8);
+            
             continue;
           }
             switch (chooseToken) {
