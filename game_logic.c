@@ -107,17 +107,33 @@
         board[z][0].numTokens = 0;
       }
 
+      print_board(board);
+
       for (size_t i = 0; i < 4; i++)
       {
         for (size_t j = 0; j < numPlayers; j++)
         {
 
+
           printf("Player %d - %sPlease select a square (Row 0 - 5)\n", j+1, players[j].name);
           scanf("%d", &selectedSquare);
 
+          while (selectedSquare<0 || selectedSquare>5) {
+            printf("\nOutisde Range. Try again\n\n");
+            printf("Player %d - %sPlease select a square (Row 0 - 5)\n", j+1, players[j].name);
+            scanf("%d", &selectedSquare);
+          }
+
           while (minNumOfTokens != board[selectedSquare][0].numTokens) {
             printf("TRY AGAIN: MUST BE SQAURE WITH LEAST TOKENS\n");
-            printf("Player %d %sPlease select a square\n", j+1, players[j].name);
+            printf("\nSquares with least number of tokens:\n");
+            for (size_t e = 0; e < 6; e++) {
+              if (board[e][0].numTokens == minNumOfTokens)
+              {
+                printf("%d\t", e);
+              }
+            }
+            printf("\nPlayer %d %sPlease select a square\n", j+1, players[j].name);
             scanf("%d", &selectedSquare);
           }
 
