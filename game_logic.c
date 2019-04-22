@@ -101,7 +101,7 @@
   {
       int minNumOfTokens = 0;
       int selectedSquare = 0;
-
+      
       int j=0;
       for (size_t z = 0; z < 6; z++) {
         board[z][0].numTokens = 0;
@@ -137,26 +137,34 @@
             scanf("%d", &selectedSquare);
           }
 
-          //Checks if user is blocking their own token in stack, only gives 1 chance
-          while (board[selectedSquare][0].numTokens > 0 && board[selectedSquare][0].stack->col == players[j].col) {
-            printf("\nError: can't place on your own colour\n");
-            printf("Player %d %sPlease select a square\n", j+1, players[j].name);
-            scanf("%d", &selectedSquare);
-          }
 
-          if (minNumOfTokens == board[selectedSquare][0].numTokens )
-          {
-              board[selectedSquare][0].numTokens++;
-              push(&board[selectedSquare][0].stack, players[j].col);
-          }
 
-          if (((numPlayers * i) + j + 1)%NUM_ROWS == 0)
-          {
-            minNumOfTokens++;
-            printf("\t\tminim no. tokens %d\n", minNumOfTokens);
-          }
-          system("cls");
-          print_board(board);
+
+            //Checks if user is blocking their own token in stack, only gives 1 chance
+            while (board[selectedSquare][0].numTokens > 0 && board[selectedSquare][0].stack->col == players[j].col) {
+              printf("\nError: can't place on your own colour\n");
+              printf("Player %d %sPlease select a square\n", j+1, players[j].name);
+              scanf("%d", &selectedSquare);
+            }
+
+
+
+            if (minNumOfTokens == board[selectedSquare][0].numTokens )
+            {
+                board[selectedSquare][0].numTokens++;
+                push(&board[selectedSquare][0].stack, players[j].col);
+            }
+
+            if (((numPlayers * i) + j + 1)%NUM_ROWS == 0)
+            {
+              minNumOfTokens++;
+              printf("\t\tminim no. tokens %d\n", minNumOfTokens);
+            }
+            system("cls");
+            print_board(board);
+
+
+
       }
     }
 
@@ -171,8 +179,8 @@
          printf("**********\nTHE WINNER IS %s**********\n", players[i].name);
          return 0;
        }
-       else return 1;
      }
+      return 1;
    }
 
    //
@@ -210,7 +218,7 @@
 
     while (check_win(board, players, numPlayers)) {
       for (size_t i=0; i<numPlayers; i++) {
-        while (check_win(board, players, numPlayers)) {
+
 
           srand(time(NULL));    //roll a dice here
           int dice = rand()%6;
@@ -350,7 +358,6 @@
                 break;
               }
             }
-        }
 
 
 
