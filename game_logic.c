@@ -94,6 +94,24 @@
     printf("   -------------------------------------\n");
   }
 
+
+int edge_case(square board[NUM_ROWS][NUM_COLUMNS], player players[], int minNumOfTokens, int j)
+{
+  for (size_t z = 0; z < 6; z++)
+            {
+              if ((board[z][0].numTokens > 0)&&(board[z][0].numTokens == minNumOfTokens)&&(board[z][0].stack->col != players[j].col))
+              {
+                return 1;
+              }
+            }
+            return 0;
+}
+
+
+
+
+
+
   //
   // Function for placing token at the start of the game
   //
@@ -101,7 +119,7 @@
   {
       int minNumOfTokens = 0;
       int selectedSquare = 0;
-      
+
       int j=0;
       for (size_t z = 0; z < 6; z++) {
         board[z][0].numTokens = 0;
@@ -138,14 +156,17 @@
           }
 
 
-
-
+          if (edge_case(board, players, minNumOfTokens, j))
+          {
             //Checks if user is blocking their own token in stack, only gives 1 chance
             while (board[selectedSquare][0].numTokens > 0 && board[selectedSquare][0].stack->col == players[j].col) {
               printf("\nError: can't place on your own colour\n");
               printf("Player %d %sPlease select a square\n", j+1, players[j].name);
               scanf("%d", &selectedSquare);
             }
+          }
+
+
 
 
 
