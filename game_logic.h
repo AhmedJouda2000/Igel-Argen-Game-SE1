@@ -25,10 +25,10 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  *        numPlayers - the number of players
  */
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
-
+int check_win(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
 int edge_case(square board[NUM_ROWS][NUM_COLUMNS], player players[], int minNumOfTokens, int j);
 
-int check_win(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
+
 //temporary declaration of function to check if there's a winner
 //Will be used to exit play_game function
 int on_obstacle_square(square board[NUM_ROWS][NUM_COLUMNS], int dice, int j);

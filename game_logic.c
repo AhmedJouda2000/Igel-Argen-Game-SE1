@@ -237,8 +237,9 @@ int edge_case(square board[NUM_ROWS][NUM_COLUMNS], player players[], int minNumO
     }
 
 
-    while (check_win(board, players, numPlayers)) {
+    while (check_win(board, players, numPlayers)==1) {
       for (size_t i=0; i<numPlayers; i++) {
+
 
 
           srand(time(NULL));    //roll a dice here
