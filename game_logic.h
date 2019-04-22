@@ -26,7 +26,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
  */
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
 
-void check_win(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
+int check_win(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers);
 //temporary declaration of function to check if there's a winner
 //Will be used to exit play_game function
 int on_obstacle_square(square board[NUM_ROWS][NUM_COLUMNS], int dice, int j);
