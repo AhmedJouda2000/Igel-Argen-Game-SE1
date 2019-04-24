@@ -226,8 +226,10 @@ int edge_case(square board[NUM_ROWS][NUM_COLUMNS], player players[], int minNumO
    // Function to handle obstacle squares
    //
     int on_obstacle_square(square board[NUM_ROWS][NUM_COLUMNS], int dice, int j) {
-      int canProceed = 1;
+      int canProceed = 1;   //by default token can move off of obstacle
 
+      //If token is on an obstacle nested loops checks to see if all tokens behind it in all
+      //rows are empty. If yes, the token can move
       if (board[dice][j].type == OBSTACLE) {
         for (size_t i=0;i<j;i++) {
           for (size_t k=0;k<6;k++) {
@@ -237,10 +239,11 @@ int edge_case(square board[NUM_ROWS][NUM_COLUMNS], player players[], int minNumO
           }
         }
       }
+      //If the token can move off of the square it is made a normal square
       if (canProceed == 1) {
         board[dice][j].type = NORMAL;
       }
-      return canProceed;
+      return canProceed;  //permission to move/not move is returned
     }
 
 
