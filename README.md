@@ -16,6 +16,11 @@ This is a C implementation of the German Board game, *Igel Ärgern*, which trans
 - Tokens that land at an (X) obstacle are stuck in it until all other tokens on the board catch up to the same column.
 - The winner is the first person to get *three* of their tokens in the last column of the board.
 
+## Contents
+- **main1.c:** Contains the driver code for the game.
+- **game_init.c:** Contains the initializing code for the game such as setting up the board.
+- **game_logic.c:** Contains the logical aspects of the code such as checking for winner.
+
 ## Authors
 - Ahmed Jouda
 - Jacob Whelan
