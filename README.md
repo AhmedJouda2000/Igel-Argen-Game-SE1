@@ -9,6 +9,7 @@ This is a C implementation of the German Board game, *Igel Ärgern*, which trans
 4. Run the executable: **./a**
 
 ## The Game
+![GitHub Logo](IgelArg.JPG)
 - The game can be played by 2 to 6 players each having *four* tokens.
 - Tokens move left to right and tokens sharing the same square are stacked. Only the token on the top can move.
 - At each turn the dice is rolled, the player is given the choice of moving his/her tokens up or down then a token in the row of the number rolled will be moved at the end of the turn.
